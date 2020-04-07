@@ -1,0 +1,41 @@
+name: Build image
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+
+  schedule:
+    - cron:  '0 3 * * *'
+
+env:
+  IMAGE: 'docker.pkg.github.com/${{ github.repository }}/dumb-pypi:latest'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker build --no-cache . --file Dockerfile --tag image
+
+  push:
+    needs: build
+
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name == 'schedule'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Log into registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+
+      - name: Push image
+        run: |
+          docker tag image $IMAGE
+          docker push $IMAGE
