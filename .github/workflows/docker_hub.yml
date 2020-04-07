@@ -1,0 +1,22 @@
+name: Trigger Docker Hub builder
+
+on:
+  push:
+    branches:
+      - master
+
+  schedule:
+    - cron:  '0 3 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Trigger Docker Hub Build
+        env:
+          DOCKER_HUB_TRIGGER_URL: ${{ secrets.DOCKER_HUB_TRIGGER_URL }}
+        run: echo "url = \"$DOCKER_HUB_TRIGGER_URL\"" | curl -K- --request 'POST'
+        shell: bash
