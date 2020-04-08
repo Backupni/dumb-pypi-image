@@ -1,10 +1,6 @@
 name: Trigger Docker Hub builder
 
 on:
-  push:
-    branches:
-      - master
-
   schedule:
     - cron:  '0 3 * * *'
 
@@ -18,5 +14,5 @@ jobs:
       - name: Trigger Docker Hub Build
         env:
           DOCKER_HUB_TRIGGER_URL: ${{ secrets.DOCKER_HUB_TRIGGER_URL }}
-        run: echo "url = \"$DOCKER_HUB_TRIGGER_URL\"" | curl -K- --request 'POST'
+        run: curl --request 'POST' "$DOCKER_HUB_TRIGGER_URL"
         shell: bash
