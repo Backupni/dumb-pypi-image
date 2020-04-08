@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 set -ex
 
 # If tag is not "latest" (it should be in format "<version>-latest") then replace "latest" to current date and push second image with date-based tag
