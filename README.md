@@ -3,8 +3,9 @@ dumb-pypi image
 
 Container image with dumb-pypi package.
 
+
 References
 ----------
 
-1. [dumb-pypi PyPi project](https://pypi.org/project/dumb-pypi/)
-1. [dumb-pypi GitHub repository](https://github.com/chriskuehl/dumb-pypi)
+- `dumb-pypi` container image ([Docker Hub](https://hub.docker.com/r/backupner/dumb-pypi) ([tags](https://hub.docker.com/r/backupner/dumb-pypi/tags)), [GitHub](https://github.com/backupner/dumb-pypi-image))
+- `dumb-pypi` package ([PyPi](https://pypi.org/project/dumb-pypi/), [GitHub](https://github.com/chriskuehl/dumb-pypi))
