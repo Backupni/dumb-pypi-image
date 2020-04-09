@@ -2,7 +2,7 @@ name: Trigger Docker Hub builder
 
 on:
   schedule:
-    - cron:  '0 3 * * *'
+    - cron:  '0 * * * *'
 
 jobs:
   build:
@@ -10,6 +10,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.CUSTOM_TOKEN }}
 
       - name: Trigger Docker Hub Build
         env:
@@ -23,10 +25,7 @@ jobs:
           while read -r line;
           do
             tag="${line#* }"
-            commit="${line% *}"
             git push origin :${tag}
-            git tag --delete ${tag#*/*/}
-            git tag ${tag#*/*/} ${commit}
             git push origin ${tag}
           done < <(git show-ref --tags -d)
         shell: bash
