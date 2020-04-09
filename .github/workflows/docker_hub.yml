@@ -16,3 +16,17 @@ jobs:
           DOCKER_HUB_TRIGGER_URL: ${{ secrets.DOCKER_HUB_TRIGGER_URL }}
         run: curl --request 'POST' "$DOCKER_HUB_TRIGGER_URL"
         shell: bash
+
+      - name: Re-assign tags
+        run: |
+          git fetch --depth=1 origin "+refs/tags/*:refs/tags/*"
+          while read -r line;
+          do
+            tag="${line#* }"
+            commit="${line% *}"
+            git push origin :${tag}
+            git tag --delete ${tag#*/*/}
+            git tag ${tag#*/*/} ${commit}
+            git push origin ${tag}
+          done < <(git show-ref --tags -d)
+        shell: bash
